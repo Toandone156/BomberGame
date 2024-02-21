@@ -1,4 +1,4 @@
-using System;
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -16,13 +16,19 @@ public class BombController : MonoBehaviour
     [Header("Explosion")]
     public Explosion explosionPrefab;
     public LayerMask explosionLayer;
-    public float explosionDuration = 1f;
     public int explosionRadius = 1;
 
     [Header("Destructible")]
     public GameObject destructiblePrefabs;
     public Tilemap destructibleTilemaps;
     public float duration = 1f;
+
+    private PhotonView view;
+    private void Awake()
+    {
+        destructibleTilemaps = GameObject.Find("Destructibles").GetComponent<Tilemap>();
+        view = GetComponent<PhotonView>();
+    }
 
     private void OnEnable()
     {
@@ -32,9 +38,12 @@ public class BombController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (bombRemaining > 0 && Input.GetKeyDown(inputKey))
+        if (view.IsMine)
         {
-            StartCoroutine(PlaceBomb());
+            if (bombRemaining > 0 && Input.GetKeyDown(inputKey))
+            {
+                StartCoroutine(PlaceBomb());
+            }
         }
     }
 
@@ -44,7 +53,7 @@ public class BombController : MonoBehaviour
         position.x = Mathf.Round(position.x);
         position.y = Mathf.Round(position.y);
 
-        var bomb = Instantiate(bombPrefab, position, Quaternion.identity);
+        var bomb = PhotonNetwork.Instantiate(bombPrefab.name, position, Quaternion.identity);
         bombRemaining--;
 
         yield return new WaitForSeconds(bombFuseTime);
@@ -53,16 +62,19 @@ public class BombController : MonoBehaviour
         position.x = Mathf.Round(position.x);
         position.y = Mathf.Round(position.y);
 
-        var explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-        explosion.SetActiveSprite(explosion.startSprite);
-        explosion.DestroyAfter(explosionDuration);
+        var explosion = PhotonNetwork.Instantiate(explosionPrefab.name, position, Quaternion.identity);
+        var pv = explosion.GetComponent<PhotonView>();
+        if (pv)
+        {
+            pv.RPC("SetExplosion", RpcTarget.AllBuffered, "start", null);
+        }
 
         Explode(position, Vector2.up, explosionRadius);
         Explode(position, Vector2.down, explosionRadius);
         Explode(position, Vector2.left, explosionRadius);
         Explode(position, Vector2.right, explosionRadius);
 
-        Destroy(bomb);
+        PhotonNetwork.Destroy(bomb);
         bombRemaining++;
     }
 
@@ -79,10 +91,12 @@ public class BombController : MonoBehaviour
             return;
         }
 
-        var explosion = Instantiate(explosionPrefab, position, Quaternion.identity);
-        explosion.SetActiveSprite(length > 1 ? explosion.middleSprite : explosion.endSprite);
-        explosion.SetDirection(direction);
-        explosion.DestroyAfter(explosionDuration);
+        var explosion = PhotonNetwork.Instantiate(explosionPrefab.name, position, Quaternion.identity);
+        var pv = explosion.GetComponent<PhotonView>();
+        if (pv)
+        {
+            pv.RPC("SetExplosion", RpcTarget.AllBuffered, length > 1 ? "middle" : "end", direction);
+        }
 
         Explode(position, direction, --length);
     }
@@ -94,15 +108,16 @@ public class BombController : MonoBehaviour
 
         if (tile != null)
         {
-            var desObj = Instantiate(destructiblePrefabs, position, Quaternion.identity);
-            Destroy(desObj, duration);
-            destructibleTilemaps.SetTile(tilePos, null);
+            var desObj = PhotonNetwork.Instantiate(destructiblePrefabs.name, position, Quaternion.identity);
+            view.RPC(nameof(RemoveTile_RPC), RpcTarget.AllBuffered, position);
         }
     }
 
-    void AddItemPickup(Vector2 position)
+    [PunRPC]
+    void RemoveTile_RPC(Vector2 position)
     {
-
+        var tilePos = destructibleTilemaps.WorldToCell(position);
+        destructibleTilemaps.SetTile(tilePos, null);
     }
 
     private void OnTriggerExit2D(Collider2D collision)

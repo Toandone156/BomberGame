@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Destructible : MonoBehaviour
@@ -13,7 +12,7 @@ public class Destructible : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, timeDuration);
+        Destroy(this.gameObject, timeDuration);
     }
 
     private void OnDestroy()
@@ -21,7 +20,7 @@ public class Destructible : MonoBehaviour
         if(spawnItems.Length > 0 && Random.value <= spawnChange)
         {
             var itemIndex = Random.Range(0, spawnItems.Length - 1);
-            Instantiate(spawnItems[itemIndex], transform.position, Quaternion.identity);
+            PhotonNetwork.Instantiate(spawnItems[itemIndex].name, transform.position, Quaternion.identity);
         }
     }
 }

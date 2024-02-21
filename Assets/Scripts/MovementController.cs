@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,31 +21,37 @@ public class MovementController : MonoBehaviour
     public AnimationSpriteRender spriteRenderDeath;
     private AnimationSpriteRender activeSpriteRender;
 
+    private PhotonView view;
+
     public void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         activeSpriteRender = spriteRenderDown;
+        view = GetComponent<PhotonView>();
     }
 
     public void Update()
     {
-        switch (true)
+        if(view.IsMine)
         {
-            case var c when Input.GetKey(up):
-                SetDirection(Vector2.up, spriteRenderUp);
-                break;
-            case var c when Input.GetKey(down):
-                SetDirection(Vector2.down, spriteRenderDown);
-                break;
-            case var c when Input.GetKey(left):
-                SetDirection(Vector2.left, spriteRenderLeft);
-                break;
-            case var c when Input.GetKey(right):
-                SetDirection(Vector2.right, spriteRenderRight);
-                break;
-            default:
-                SetDirection(Vector2.zero, activeSpriteRender);
-                break;
+            switch (true)
+            {
+                case var c when Input.GetKey(up):
+                    SetDirection(Vector2.up, spriteRenderUp);
+                    break;
+                case var c when Input.GetKey(down):
+                    SetDirection(Vector2.down, spriteRenderDown);
+                    break;
+                case var c when Input.GetKey(left):
+                    SetDirection(Vector2.left, spriteRenderLeft);
+                    break;
+                case var c when Input.GetKey(right):
+                    SetDirection(Vector2.right, spriteRenderRight);
+                    break;
+                default:
+                    SetDirection(Vector2.zero, activeSpriteRender);
+                    break;
+            }
         }
     }
 

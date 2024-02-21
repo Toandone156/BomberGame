@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour
@@ -7,6 +6,8 @@ public class Explosion : MonoBehaviour
     public AnimationSpriteRender startSprite;
     public AnimationSpriteRender middleSprite;
     public AnimationSpriteRender endSprite;
+
+    public float timeDuration = 1f;
 
     public void SetActiveSprite(AnimationSpriteRender sprite)
     {
@@ -21,8 +22,22 @@ public class Explosion : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle * Mathf.Rad2Deg, Vector3.forward);
     }
 
-    public void DestroyAfter(float time)
+    [PunRPC]
+    void SetExplosion(string animationSprite, Vector2? direction)
     {
-        Destroy(gameObject, time);
+        switch (animationSprite)
+        {
+            case "start":
+                SetActiveSprite(startSprite);
+                break;
+            case "middle":
+                SetActiveSprite(middleSprite);
+                break;
+            case "end":
+                SetActiveSprite(endSprite);
+                break;
+        }
+        SetDirection(direction ?? Vector2.up);
+        Destroy(this.gameObject, timeDuration);
     }
 }
