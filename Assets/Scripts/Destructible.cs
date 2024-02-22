@@ -12,14 +12,25 @@ public class Destructible : MonoBehaviour
 
     void Start()
     {
+        GetComponent<PhotonView>().RPC(nameof(SpawnItem), RpcTarget.MasterClient);
         Destroy(this.gameObject, timeDuration);
     }
 
-    private void OnDestroy()
+    //private void OnDestroy()
+    //{
+    //    if(spawnItems.Length > 0 && Random.value <= spawnChange)
+    //    {
+    //        var itemIndex = Random.Range(0, spawnItems.Length);
+    //        PhotonNetwork.Instantiate(spawnItems[itemIndex].name, transform.position, Quaternion.identity);
+    //    }
+    //}
+
+    [PunRPC]
+    void SpawnItem()
     {
-        if(spawnItems.Length > 0 && Random.value <= spawnChange)
+        if (spawnItems.Length > 0 && Random.value <= spawnChange)
         {
-            var itemIndex = Random.Range(0, spawnItems.Length - 1);
+            var itemIndex = Random.Range(0, spawnItems.Length);
             PhotonNetwork.Instantiate(spawnItems[itemIndex].name, transform.position, Quaternion.identity);
         }
     }

@@ -37,19 +37,19 @@ public class MovementController : MonoBehaviour
             switch (true)
             {
                 case var c when Input.GetKey(up):
-                    SetDirection(Vector2.up, spriteRenderUp);
+                    view.RPC(nameof(SetDirection), RpcTarget.All, Vector2.up);
                     break;
                 case var c when Input.GetKey(down):
-                    SetDirection(Vector2.down, spriteRenderDown);
+                    view.RPC(nameof(SetDirection), RpcTarget.All, Vector2.down);
                     break;
                 case var c when Input.GetKey(left):
-                    SetDirection(Vector2.left, spriteRenderLeft);
+                    view.RPC(nameof(SetDirection), RpcTarget.All, Vector2.left);
                     break;
                 case var c when Input.GetKey(right):
-                    SetDirection(Vector2.right, spriteRenderRight);
+                    view.RPC(nameof(SetDirection), RpcTarget.All, Vector2.right);
                     break;
                 default:
-                    SetDirection(Vector2.zero, activeSpriteRender);
+                    view.RPC(nameof(SetDirection), RpcTarget.All, Vector2.zero);
                     break;
             }
         }
@@ -63,29 +63,57 @@ public class MovementController : MonoBehaviour
         rigidbody.MovePosition(position + translation);
     }
 
-    private void SetDirection(Vector2 newDirection, AnimationSpriteRender spriteRender)
+    [PunRPC]
+    private void SetDirection(Vector2 newDirection)
     {
         direction = newDirection;
 
-        spriteRenderUp.enabled = spriteRender == spriteRenderUp;
-        spriteRenderDown.enabled = spriteRender == spriteRenderDown;
-        spriteRenderLeft.enabled = spriteRender == spriteRenderLeft;
-        spriteRenderRight.enabled = spriteRender == spriteRenderRight;
-
-        activeSpriteRender = spriteRender;
+        switch (true)
+        {
+            case var condition when direction == Vector2.up:
+                spriteRenderUp.enabled = true;
+                spriteRenderDown.enabled = false;
+                spriteRenderLeft.enabled = false;
+                spriteRenderRight.enabled = false;
+                activeSpriteRender = spriteRenderUp;
+                break;
+            case var condition when direction == Vector2.down:
+                spriteRenderUp.enabled = false;
+                spriteRenderDown.enabled = true;
+                spriteRenderLeft.enabled = false;
+                spriteRenderRight.enabled = false;
+                activeSpriteRender = spriteRenderDown;
+                break;
+            case var condition when direction == Vector2.left:
+                spriteRenderUp.enabled = false;
+                spriteRenderDown.enabled = false;
+                spriteRenderLeft.enabled = true;
+                spriteRenderRight.enabled = false;
+                activeSpriteRender = spriteRenderLeft;
+                break;
+            case var condition when direction == Vector2.right:
+                spriteRenderUp.enabled = false;
+                spriteRenderDown.enabled = false;
+                spriteRenderLeft.enabled = false;
+                spriteRenderRight.enabled = true;
+                activeSpriteRender = spriteRenderRight;
+                break;
+        }
 
         activeSpriteRender.idle = direction == Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
+        if(view.IsMine && collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
         {
-            OnDeath(collision.gameObject);
+            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered);
+            //OnDeath(collision.gameObject);
         }
     }
 
-    void OnDeath(GameObject player)
+    [PunRPC]
+    void OnDeath()
     {
         enabled = false;
         GetComponent<BombController>().enabled = false;

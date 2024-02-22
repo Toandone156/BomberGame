@@ -41,6 +41,10 @@ MonoBehaviour:
   - RespawnSpaceship
   - RemoveTile_RPC
   - SetExplosion
+  - SetDirection
+  - DestroyItem
+  - OnDeath
+  - SpawnItem
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

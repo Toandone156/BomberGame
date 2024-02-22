@@ -66,7 +66,7 @@ public class BombController : MonoBehaviour
         var pv = explosion.GetComponent<PhotonView>();
         if (pv)
         {
-            pv.RPC("SetExplosion", RpcTarget.AllBuffered, "start", null);
+            pv.RPC("SetExplosion", RpcTarget.All, "start", null);
         }
 
         Explode(position, Vector2.up, explosionRadius);
@@ -95,7 +95,7 @@ public class BombController : MonoBehaviour
         var pv = explosion.GetComponent<PhotonView>();
         if (pv)
         {
-            pv.RPC("SetExplosion", RpcTarget.AllBuffered, length > 1 ? "middle" : "end", direction);
+            pv.RPC("SetExplosion", RpcTarget.All, length > 1 ? "middle" : "end", direction);
         }
 
         Explode(position, direction, --length);

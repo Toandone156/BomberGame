@@ -36,7 +36,7 @@ public class ItemPickupController : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             OnItemPickup(collision.gameObject);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }
