@@ -12,6 +12,7 @@ public class BombController : MonoBehaviour
     public int bombAmount = 1;
 
     private int bombRemaining;
+    [SerializeField] private AudioSource audioSource;
 
     [Header("Explosion")]
     public Explosion explosionPrefab;
@@ -57,6 +58,7 @@ public class BombController : MonoBehaviour
         bombRemaining--;
 
         yield return new WaitForSeconds(bombFuseTime);
+
 
         position = bomb.transform.position;
         position.x = Mathf.Round(position.x);
@@ -122,7 +124,7 @@ public class BombController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Bomb"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bomb"))
         {
             collision.isTrigger = false;
         }

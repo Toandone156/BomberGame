@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: -1000503729, guid: 8482cc10c037d2846a26e45ca1a26d7b, type: 3}
   loop: 0
   idle: 0
+  audioSource: {fileID: 0}
 --- !u!114 &4502816277750325401
 MonoBehaviour:
   m_ObjectHideFlags: 0

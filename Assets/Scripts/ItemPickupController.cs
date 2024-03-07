@@ -1,11 +1,8 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemPickupController : MonoBehaviour
 {
+    [SerializeField] private AudioSource audioSource;
     public enum ItemPickup
     {
         BlastRadius,
@@ -17,10 +14,12 @@ public class ItemPickupController : MonoBehaviour
 
     private void OnItemPickup(GameObject player)
     {
+
         switch (type)
         {
             case ItemPickup.BlastRadius:
                 player.GetComponent<BombController>().explosionRadius += 1;
+
                 break;
             case ItemPickup.Speed:
                 player.GetComponent<MovementController>().speed += 1;
@@ -29,14 +28,25 @@ public class ItemPickupController : MonoBehaviour
                 player.GetComponent<BombController>().AddBomb();
                 break;
         }
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            audioSource.Play();
             OnItemPickup(collision.gameObject);
-            Destroy(gameObject);
+            Destroy(gameObject, 0.1f);
         }
     }
+
+    //public void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Player")
+    //    {
+
+    //    }
+    //}
 }

@@ -6,8 +6,9 @@ public class Explosion : MonoBehaviour
     public AnimationSpriteRender startSprite;
     public AnimationSpriteRender middleSprite;
     public AnimationSpriteRender endSprite;
-
     public float timeDuration = 1f;
+
+    [SerializeField] private AudioSource audioSource;
 
     public void SetActiveSprite(AnimationSpriteRender sprite)
     {
@@ -32,6 +33,7 @@ public class Explosion : MonoBehaviour
                 break;
             case "middle":
                 SetActiveSprite(middleSprite);
+                audioSource.Play();
                 break;
             case "end":
                 SetActiveSprite(endSprite);
