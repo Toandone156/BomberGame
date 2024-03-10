@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: -1000503729, guid: 8482cc10c037d2846a26e45ca1a26d7b, type: 3}
   loop: 0
   idle: 0
+  audioSource: {fileID: 0}
 --- !u!114 &4502816277750325401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,9 +129,6 @@ MonoBehaviour:
   spawnItems:
   - {fileID: 5226199637849786018, guid: bcd90c73e8be7b440a4ac54e95da11bf, type: 3}
   - {fileID: 2506563749058921391, guid: 999d1f552a87f4b40a80a926929766ec, type: 3}
-  - {fileID: 6302778453112586202, guid: 6130326bf9abd944eaf18b25250b2461, type: 3}
-  - {fileID: 6302778453112586202, guid: 6130326bf9abd944eaf18b25250b2461, type: 3}
-  - {fileID: 6302778453112586202, guid: 6130326bf9abd944eaf18b25250b2461, type: 3}
   - {fileID: 6302778453112586202, guid: 6130326bf9abd944eaf18b25250b2461, type: 3}
   - {fileID: 2506563749058921391, guid: 999d1f552a87f4b40a80a926929766ec, type: 3}
   - {fileID: 2506563749058921391, guid: 999d1f552a87f4b40a80a926929766ec, type: 3}

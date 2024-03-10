@@ -106,6 +106,7 @@ MonoBehaviour:
   - {fileID: -227064984, guid: 22cd15ec83fed3b4db95f16835a5416d, type: 3}
   loop: 1
   idle: 1
+  audioSource: {fileID: 0}
 --- !u!1 &5442247981994959785
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +213,7 @@ MonoBehaviour:
   - {fileID: -46189036, guid: 22cd15ec83fed3b4db95f16835a5416d, type: 3}
   loop: 1
   idle: 1
+  audioSource: {fileID: 0}
 --- !u!1 &5581376151368110256
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +322,7 @@ MonoBehaviour:
   - {fileID: 842530127, guid: 6ee6e2eb891e94f489f0a462980f2665, type: 3}
   loop: 0
   idle: 0
+  audioSource: {fileID: 0}
 --- !u!1 &5999076535463075634
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,6 +339,7 @@ GameObject:
   - component: {fileID: 6244997938095270723}
   - component: {fileID: -652442854372190492}
   - component: {fileID: 5060436941530132122}
+  - component: {fileID: -5587679222701397445}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -451,6 +455,7 @@ MonoBehaviour:
   spriteRenderLeft: {fileID: 4444643574126407106}
   spriteRenderRight: {fileID: 6124670097327976401}
   spriteRenderDeath: {fileID: 1244336421718771549}
+  audioSource: {fileID: -5587679222701397445}
 --- !u!114 &3619650367240599245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -467,6 +472,7 @@ MonoBehaviour:
   inputKey: 32
   bombFuseTime: 3
   bombAmount: 1
+  audioSource: {fileID: 0}
   explosionPrefab: {fileID: -7876018816605082759, guid: 6d8efc7375eebf54fbc6a217d428aa20, type: 3}
   explosionLayer:
     serializedVersion: 2
@@ -539,6 +545,102 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5999076535463075634}
   m_CullTransparentMesh: 1
+--- !u!82 &-5587679222701397445
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5999076535463075634}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 429f70d23c348354da7f14a8f1a06d35, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7297119771850951486
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +747,7 @@ MonoBehaviour:
   - {fileID: -1023187956, guid: 22cd15ec83fed3b4db95f16835a5416d, type: 3}
   loop: 1
   idle: 1
+  audioSource: {fileID: 0}
 --- !u!1 &8117431943634548581
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,3 +854,4 @@ MonoBehaviour:
   - {fileID: 1798932597, guid: 22cd15ec83fed3b4db95f16835a5416d, type: 3}
   loop: 1
   idle: 1
+  audioSource: {fileID: 0}
