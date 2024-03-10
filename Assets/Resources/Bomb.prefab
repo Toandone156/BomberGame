@@ -171,7 +171,7 @@ MonoBehaviour:
   - {fileID: -1669185683, guid: 975894a97cf0594469745d6e9e8bd8e0, type: 3}
   - {fileID: 703729841, guid: 975894a97cf0594469745d6e9e8bd8e0, type: 3}
   - {fileID: 142612660, guid: 975894a97cf0594469745d6e9e8bd8e0, type: 3}
-  loop: 0
+  loop: 1
   idle: 0
   audioSource: {fileID: -7323075187750564722}
 --- !u!114 &-4600173902241841478

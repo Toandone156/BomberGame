@@ -1,3 +1,4 @@
+using Photon.Pun;
 using UnityEngine;
 
 public class ItemPickupController : MonoBehaviour
@@ -36,17 +37,12 @@ public class ItemPickupController : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            audioSource.Play();
-            OnItemPickup(collision.gameObject);
+            if (collision.gameObject.GetComponent<PhotonView>().IsMine)
+            {
+                audioSource.Play();
+                OnItemPickup(collision.gameObject);
+            }
             Destroy(gameObject, 0.1f);
         }
     }
-
-    //public void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Player")
-    //    {
-
-    //    }
-    //}
 }

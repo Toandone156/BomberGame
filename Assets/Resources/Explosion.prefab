@@ -123,7 +123,6 @@ GameObject:
   - component: {fileID: 3126887022014673803}
   - component: {fileID: -7876018816605082759}
   - component: {fileID: -8518831538408164942}
-  - component: {fileID: -2760149526855849989}
   - component: {fileID: 6399060029747637376}
   m_Layer: 8
   m_Name: Explosion
@@ -234,14 +233,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!81 &-2760149526855849989
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4548166022048317405}
-  m_Enabled: 1
 --- !u!82 &6399060029747637376
 AudioSource:
   m_ObjectHideFlags: 0
