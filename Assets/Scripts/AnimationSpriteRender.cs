@@ -1,6 +1,3 @@
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationSpriteRender : MonoBehaviour
@@ -15,7 +12,7 @@ public class AnimationSpriteRender : MonoBehaviour
 
     public bool loop = true;
     public bool idle = true;
-
+    [SerializeField] private AudioSource audioSource;
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -50,6 +47,14 @@ public class AnimationSpriteRender : MonoBehaviour
         else
         {
             spriteRenderer.sprite = sprites[animationFrame];
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            audioSource.Play();
         }
     }
 }

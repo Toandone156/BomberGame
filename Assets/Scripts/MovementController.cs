@@ -1,6 +1,4 @@
 using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementController : MonoBehaviour
@@ -22,6 +20,9 @@ public class MovementController : MonoBehaviour
     private AnimationSpriteRender activeSpriteRender;
 
     private PhotonView view;
+    private bool isDeath = false;
+
+    [SerializeField] private AudioSource audioSource;
 
     public void Awake()
     {
@@ -32,7 +33,7 @@ public class MovementController : MonoBehaviour
 
     public void Update()
     {
-        if(view.IsMine)
+        if (view.IsMine)
         {
             switch (true)
             {
@@ -105,8 +106,12 @@ public class MovementController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(view.IsMine && collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
+        if (view.IsMine && !isDeath && collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
         {
+            Camera camera = Camera.main;
+            camera.GetComponent<AudioSource>().enabled = false;
+            GetComponent<BombController>().enabled = false;
+            audioSource.Play();
             view.RPC(nameof(OnDeath), RpcTarget.AllBuffered);
             //OnDeath(collision.gameObject);
         }
@@ -115,8 +120,6 @@ public class MovementController : MonoBehaviour
     [PunRPC]
     void OnDeath()
     {
-        enabled = false;
-        GetComponent<BombController>().enabled = false;
 
         spriteRenderUp.enabled = false;
         spriteRenderDown.enabled = false;
