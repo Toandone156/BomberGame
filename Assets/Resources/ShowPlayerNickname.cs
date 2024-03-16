@@ -8,6 +8,4 @@ public class ShowPlayerNickname : MonoBehaviourPunCallbacks
     {
         GetComponentInChildren<TMP_Text>().text = photonView.Owner.NickName;
     }
-
-
 }
