@@ -22,6 +22,8 @@ public class MovementController : MonoBehaviour
     private PhotonView view;
     private bool isDeath = false;
 
+    private int numberOfHealth = 3;
+
     [SerializeField] private AudioSource audioSource;
 
     public void Awake()
@@ -120,7 +122,6 @@ public class MovementController : MonoBehaviour
     [PunRPC]
     void OnDeath()
     {
-
         spriteRenderUp.enabled = false;
         spriteRenderDown.enabled = false;
         spriteRenderLeft.enabled = false;
@@ -132,10 +133,23 @@ public class MovementController : MonoBehaviour
 
     void OnDeathEnded()
     {
-        gameObject.SetActive(false);
-        var camera = GameObject.FindAnyObjectByType<Camera>();
-        camera.GetComponent<CameraFollow>().target = null;
-        camera.transform.position = new Vector3(0, 0, -10);
-        camera.orthographicSize = 9;
+        numberOfHealth--;
+        Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
+        if (numberOfHealth == 0)
+        {
+            gameObject.SetActive(false);
+            var camera = GameObject.FindAnyObjectByType<Camera>();
+            camera.GetComponent<CameraFollow>().target = null;
+            camera.transform.position = new Vector3(0, 0, -10);
+            camera.orthographicSize = 9;
+        }
+        else
+        {
+            spriteRenderDown.enabled = true;
+            spriteRenderDeath.enabled = false;
+            gameObject.SetActive(true);
+            GetComponent<BombController>().enabled = true;
+        }
+
     }
 }

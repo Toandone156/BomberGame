@@ -11,7 +11,16 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         clickSoundEffect.Play();
+
+
+
         PhotonNetwork.CreateRoom(roomName.text);
+
+        if (PhotonNetwork.InLobby)
+        {
+
+        }
+
     }
 
     public void JoinRoom()
