@@ -133,5 +133,9 @@ public class MovementController : MonoBehaviour
     void OnDeathEnded()
     {
         gameObject.SetActive(false);
+        var camera = GameObject.FindAnyObjectByType<Camera>();
+        camera.GetComponent<CameraFollow>().target = null;
+        camera.transform.position = new Vector3(0, 0, -10);
+        camera.orthographicSize = 9;
     }
 }
