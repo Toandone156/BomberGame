@@ -28,6 +28,11 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         PhotonNetwork.LoadLevel("waitingRoom");
     }
 
+    public override void OnLeftRoom()
+    {
+        PhotonNetwork.LoadLevel("Lobby");
+    }
+
     public void StartGame()
     {
         clickSoundEffect.Play();
@@ -38,7 +43,17 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
     {
         clickSoundEffect.Play();
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.LoadLevel("Lobby");
     }
 
+    public void LoadToServer()
+    {
+        clickSoundEffect.Play();
+        PhotonNetwork.LoadLevel(1);
+    }
+
+    public void Quit()
+    {
+        clickSoundEffect.Play();
+        Application.Quit();
+    }
 }
