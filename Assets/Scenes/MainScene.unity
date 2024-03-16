@@ -2499,7 +2499,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4406ff8a141a7cb4d94c7192bafc9413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 5999076535463075634, guid: 1a0576de78e240f48b9c58ede0ff584c, type: 3}
+  players:
+  - {fileID: 939192572977103775, guid: 81ed41d133a51a8449690556b37462d5, type: 3}
+  - {fileID: 8703751139742618038, guid: bf6965e238a420846bc2346de21abb4e, type: 3}
+  - {fileID: 4197758443069864650, guid: 3dabe94344ac3ef4188d6ff12009981d, type: 3}
+  - {fileID: 3561124687022866050, guid: 09546f4b63e73e0429c0716ab022202e, type: 3}
   spawnPositions:
   - {x: -6, y: 5}
   - {x: 6, y: -5}
@@ -3656,7 +3660,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents: []
-  sceneViewId: 1
+  sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2089566339
