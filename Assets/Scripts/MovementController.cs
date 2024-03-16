@@ -22,6 +22,8 @@ public class MovementController : MonoBehaviour
     private PhotonView view;
     private bool isDeath = false;
 
+    private int numberOfHealth = 3;
+
     [SerializeField] private AudioSource audioSource;
 
     public void Awake()
@@ -33,7 +35,7 @@ public class MovementController : MonoBehaviour
 
     public void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && !isDeath)
         {
             switch (true)
             {
@@ -108,34 +110,62 @@ public class MovementController : MonoBehaviour
     {
         if (view.IsMine && !isDeath && collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
         {
-            Camera camera = Camera.main;
-            camera.GetComponent<AudioSource>().enabled = false;
             GetComponent<BombController>().enabled = false;
+            isDeath = true;
             audioSource.Play();
-            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered);
-            //OnDeath(collision.gameObject);
+            numberOfHealth--;
+            Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
+            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered, numberOfHealth == 0);
+            Invoke(nameof(OnDeathEnded), 1.5f);
         }
     }
 
     [PunRPC]
-    void OnDeath()
+    void OnDeath(bool playerDeath)
     {
-
         spriteRenderUp.enabled = false;
         spriteRenderDown.enabled = false;
         spriteRenderLeft.enabled = false;
         spriteRenderRight.enabled = false;
         spriteRenderDeath.enabled = true;
 
-        Invoke(nameof(OnDeathEnded), 1.25f);
+        if (playerDeath) 
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void OnDeathEnded()
     {
-        gameObject.SetActive(false);
-        var camera = GameObject.FindAnyObjectByType<Camera>();
-        camera.GetComponent<CameraFollow>().target = null;
-        camera.transform.position = new Vector3(0, 0, -10);
-        camera.orthographicSize = 9;
+        if (numberOfHealth == 0)
+        {
+            var camera = GameObject.FindAnyObjectByType<Camera>();
+            camera.GetComponent<AudioSource>().enabled = false;
+            camera.GetComponent<CameraFollow>().target = null;
+            camera.transform.position = new Vector3(0, 0, -10);
+            camera.orthographicSize = 9;
+            view.RPC("CallCheckState", RpcTarget.All);
+        }
+        else
+        {
+            view.RPC(nameof(Revive), RpcTarget.AllBuffered);
+            GetComponent<BombController>().enabled = true;
+            isDeath = false;
+        }
+    }
+
+    [PunRPC]
+    void Revive()
+    {
+        spriteRenderDown.enabled = true;
+        spriteRenderDeath.enabled = false;
+        gameObject.SetActive(true);
+    }
+
+    [PunRPC]
+    void CallCheckState()
+    {
+        var stateManagement = FindAnyObjectByType<StateGameMenu>();
+        stateManagement.CheckState(view.IsMine);
     }
 }
