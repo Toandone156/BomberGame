@@ -35,7 +35,7 @@ public class MovementController : MonoBehaviour
 
     public void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && !isDeath)
         {
             switch (true)
             {
@@ -113,9 +113,12 @@ public class MovementController : MonoBehaviour
             Camera camera = Camera.main;
             camera.GetComponent<AudioSource>().enabled = false;
             GetComponent<BombController>().enabled = false;
+            isDeath = true;
             audioSource.Play();
             view.RPC(nameof(OnDeath), RpcTarget.AllBuffered);
-            //OnDeath(collision.gameObject);
+            numberOfHealth--;
+            Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
+            Invoke(nameof(OnDeathEnded), 1.5f);
         }
     }
 
@@ -128,28 +131,32 @@ public class MovementController : MonoBehaviour
         spriteRenderRight.enabled = false;
         spriteRenderDeath.enabled = true;
 
-        Invoke(nameof(OnDeathEnded), 1.25f);
+        if(numberOfHealth == 0) gameObject.SetActive(false);
     }
 
     void OnDeathEnded()
     {
-        numberOfHealth--;
-        Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
         if (numberOfHealth == 0)
         {
-            gameObject.SetActive(false);
             var camera = GameObject.FindAnyObjectByType<Camera>();
             camera.GetComponent<CameraFollow>().target = null;
             camera.transform.position = new Vector3(0, 0, -10);
             camera.orthographicSize = 9;
+            gameObject.SetActive(false);
         }
         else
         {
-            spriteRenderDown.enabled = true;
-            spriteRenderDeath.enabled = false;
-            gameObject.SetActive(true);
+            view.RPC(nameof(Revive), RpcTarget.AllBuffered);
             GetComponent<BombController>().enabled = true;
+            isDeath = false;
         }
+    }
 
+    [PunRPC]
+    void Revive()
+    {
+        spriteRenderDown.enabled = true;
+        spriteRenderDeath.enabled = false;
+        gameObject.SetActive(true);
     }
 }
