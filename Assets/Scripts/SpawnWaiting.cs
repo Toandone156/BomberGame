@@ -19,14 +19,8 @@ public class SpawnWaiting : MonoBehaviourPunCallbacks
         if (playerCount <= 4)
         {
             PhotonNetwork.Instantiate(playerObjects[playerCount - 1].name, spawnPosition[playerCount - 1], Quaternion.identity);
-            var players = GameObject.FindGameObjectsWithTag("Player");
-            //foreach (var player in players)
-            //{
-            //    player.transform.SetParent(GameObject.FindGameObjectWithTag("UI").transform, false);
-            //}
             GetComponent<PhotonView>().RPC("MoveToCanvas", RpcTarget.All);
             PlayerPrefs.SetInt("Player", playerCount);
-
             IdentityMasterClient();
         }
     }

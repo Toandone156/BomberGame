@@ -110,20 +110,18 @@ public class MovementController : MonoBehaviour
     {
         if (view.IsMine && !isDeath && collision.gameObject.layer == LayerMask.NameToLayer("Explosion"))
         {
-            Camera camera = Camera.main;
-            camera.GetComponent<AudioSource>().enabled = false;
             GetComponent<BombController>().enabled = false;
             isDeath = true;
             audioSource.Play();
-            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered);
             numberOfHealth--;
             Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
+            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered, numberOfHealth == 0);
             Invoke(nameof(OnDeathEnded), 1.5f);
         }
     }
 
     [PunRPC]
-    void OnDeath()
+    void OnDeath(bool playerDeath)
     {
         spriteRenderUp.enabled = false;
         spriteRenderDown.enabled = false;
@@ -131,7 +129,10 @@ public class MovementController : MonoBehaviour
         spriteRenderRight.enabled = false;
         spriteRenderDeath.enabled = true;
 
-        if(numberOfHealth == 0) gameObject.SetActive(false);
+        if (playerDeath) 
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     void OnDeathEnded()
@@ -139,10 +140,11 @@ public class MovementController : MonoBehaviour
         if (numberOfHealth == 0)
         {
             var camera = GameObject.FindAnyObjectByType<Camera>();
+            camera.GetComponent<AudioSource>().enabled = false;
             camera.GetComponent<CameraFollow>().target = null;
             camera.transform.position = new Vector3(0, 0, -10);
             camera.orthographicSize = 9;
-            gameObject.SetActive(false);
+            view.RPC("CallCheckState", RpcTarget.All);
         }
         else
         {
@@ -158,5 +160,12 @@ public class MovementController : MonoBehaviour
         spriteRenderDown.enabled = true;
         spriteRenderDeath.enabled = false;
         gameObject.SetActive(true);
+    }
+
+    [PunRPC]
+    void CallCheckState()
+    {
+        var stateManagement = FindAnyObjectByType<StateGameMenu>();
+        stateManagement.CheckState(view.IsMine);
     }
 }
