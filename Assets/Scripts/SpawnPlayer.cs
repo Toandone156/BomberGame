@@ -15,4 +15,3 @@ public class SpawnPlayer : MonoBehaviour
         GameObject.FindAnyObjectByType<CameraFollow>().setPlayer(playerObject);
     }
 }
-*/

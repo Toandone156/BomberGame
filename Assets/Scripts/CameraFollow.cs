@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using Photon.Pun;
-using System.Collections.Generic;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -14,24 +12,18 @@ public class CameraFollow : MonoBehaviour
     void Update()
     {
         if (target != null)
-            {
+        {
             var moveX = target.position.x;
             var moveY = target.position.y;
-        
+
             var x = moveX > maxX ? maxX : (moveX < minX ? minX : moveX);
             var y = moveY > maxY ? maxY : (moveY < minY ? minY : moveY);
-
-    void Update()
-    {
-        if (target != null)
-        {
-            // Cập nhật vị trí camera
             Vector3 newPos = new Vector3(x, y, -10f);
             transform.position = Vector3.Lerp(transform.position, newPos, followSpeed * Time.deltaTime);
         }
- 
+
     }
-    
+
     public void setPlayer(GameObject player)
     {
         target = player.transform;
