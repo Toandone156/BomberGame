@@ -5,7 +5,7 @@ using UnityEngine;
 public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 {
     public TMP_InputField roomName;
-
+    public TMP_InputField nicknameInput;
     [SerializeField] private AudioSource clickSoundEffect;
 
     public void CreateRoom()
@@ -22,6 +22,23 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        //PhotonNetwork.LoadLevel("MainScene");
+        clickSoundEffect.Play();
+        PhotonNetwork.NickName = nicknameInput.text;
+        PhotonNetwork.LoadLevel("waitingRoom");
+    }
+
+    public void StartGame()
+    {
+        clickSoundEffect.Play();
         PhotonNetwork.LoadLevel("MainScene");
     }
+
+    public void ReturnToMenu()
+    {
+        clickSoundEffect.Play();
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("Lobby");
+    }
+
 }
