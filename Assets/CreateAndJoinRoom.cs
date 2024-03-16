@@ -1,12 +1,24 @@
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using WebSocketSharp;
 
 public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
 {
     public TMP_InputField roomName;
     public TMP_InputField nicknameInput;
     [SerializeField] private AudioSource clickSoundEffect;
+
+    private void Start()
+    {
+        if(nicknameInput != null)
+        {
+            var nickname = PhotonNetwork.NickName;
+            var savename = PlayerPrefs.GetString("Nickname");
+
+            nicknameInput.text = !string.IsNullOrEmpty(nickname) ? nickname : (savename.IsNullOrEmpty() ? savename : "");
+        }
+    }
 
     public void CreateRoom()
     {
@@ -25,6 +37,7 @@ public class CreateAndJoinRoom : MonoBehaviourPunCallbacks
         //PhotonNetwork.LoadLevel("MainScene");
         clickSoundEffect.Play();
         PhotonNetwork.NickName = nicknameInput.text;
+        PlayerPrefs.SetString("Nickname", PhotonNetwork.NickName);
         PhotonNetwork.LoadLevel("waitingRoom");
     }
 
