@@ -1,4 +1,4 @@
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +11,7 @@ public class SpawnPlayer : MonoBehaviour
     private void Start()
     {
         var playerCount = PlayerPrefs.GetInt("Player");
-        PhotonNetwork.Instantiate(players[playerCount - 1].name, spawnPositions[playerCount - 1], Quaternion.identity);
+        GameObject playerObject = PhotonNetwork.Instantiate(players[playerCount - 1].name, spawnPositions[playerCount - 1], Quaternion.identity);
+        GameObject.FindAnyObjectByType<CameraFollow>().setPlayer(playerObject);
     }
 }
