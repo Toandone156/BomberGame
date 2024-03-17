@@ -151,7 +151,7 @@ public class MovementController : MonoBehaviour
             camera.transform.position = new Vector3(0, 0, -10);
             camera.orthographicSize = 9;
             gameObject.SetActive(false);
-            //view.RPC("CallCheckState", RpcTarget.All);
+            CallCheckState();
         }
         else
         {
