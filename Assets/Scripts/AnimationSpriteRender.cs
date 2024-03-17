@@ -21,6 +21,7 @@ public class AnimationSpriteRender : MonoBehaviour
     private void OnEnable()
     {
         spriteRenderer.enabled = true;
+        animationFrame = 0;
     }
 
     private void OnDisable()

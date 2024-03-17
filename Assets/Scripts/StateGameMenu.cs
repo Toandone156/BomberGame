@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StateGameMenu : MonoBehaviour
+public class StateGameMenu : MonoBehaviourPunCallbacks
 {
     public Canvas endGameCanvas;
     public Canvas deathCanvas;
@@ -21,10 +21,14 @@ public class StateGameMenu : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    [System.Obsolete]
     public void CheckState(bool isMine)
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
         var remainPlayers = players.Count(p => p.active);
+
+        Debug.Log(remainPlayers);
+
         if (remainPlayers == 1)
         {
             var player = players.SingleOrDefault(p => p.active);
@@ -36,6 +40,8 @@ public class StateGameMenu : MonoBehaviour
             {
                 LoseGame();
             }
+
+            PhotonNetwork.CurrentRoom.IsOpen = true;
         }else if (isMine)
         {
             ShowDeathPopup();
@@ -63,17 +69,6 @@ public class StateGameMenu : MonoBehaviour
     public void ShowDeathPopup()
     {
         deathCanvas.enabled = true;
-    }
-
-    public void PlayAgain()
-    {
-        SceneManager.LoadScene(3);
-    }
-
-    public void GoToMenu()
-    {
-        PhotonNetwork.LeaveRoom();
-        SceneManager.LoadScene(2);
     }
 
     public void ClosePopup()

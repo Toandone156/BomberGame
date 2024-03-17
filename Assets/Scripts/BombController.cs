@@ -111,7 +111,7 @@ public class BombController : MonoBehaviour
         if (tile != null)
         {
             var desObj = PhotonNetwork.Instantiate(destructiblePrefabs.name, position, Quaternion.identity);
-            view.RPC(nameof(RemoveTile_RPC), RpcTarget.AllBuffered, position);
+            view.RPC(nameof(RemoveTile_RPC), RpcTarget.All, position);
         }
     }
 

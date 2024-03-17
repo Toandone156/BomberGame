@@ -115,7 +115,7 @@ public class MovementController : MonoBehaviour
             audioSource.Play();
             numberOfHealth--;
             Destroy(GameObject.FindGameObjectWithTag("Heart" + (numberOfHealth + 1)));
-            view.RPC(nameof(OnDeath), RpcTarget.AllBuffered, numberOfHealth == 0);
+            view.RPC(nameof(OnDeath), RpcTarget.All, numberOfHealth == 0);
             Invoke(nameof(OnDeathEnded), 1.5f);
         }
     }
@@ -129,10 +129,16 @@ public class MovementController : MonoBehaviour
         spriteRenderRight.enabled = false;
         spriteRenderDeath.enabled = true;
 
-        if (playerDeath) 
+        if (playerDeath && !gameObject.GetPhotonView().IsMine) 
         {
-            gameObject.SetActive(false);
+            Invoke("GoDeath", 1.5f);
         }
+    }
+
+    void GoDeath()
+    {
+        gameObject.SetActive(false);
+        CallCheckState();
     }
 
     void OnDeathEnded()
@@ -144,11 +150,12 @@ public class MovementController : MonoBehaviour
             camera.GetComponent<CameraFollow>().target = null;
             camera.transform.position = new Vector3(0, 0, -10);
             camera.orthographicSize = 9;
-            view.RPC("CallCheckState", RpcTarget.All);
+            gameObject.SetActive(false);
+            //view.RPC("CallCheckState", RpcTarget.All);
         }
         else
         {
-            view.RPC(nameof(Revive), RpcTarget.AllBuffered);
+            view.RPC(nameof(Revive), RpcTarget.All);
             GetComponent<BombController>().enabled = true;
             isDeath = false;
         }
@@ -162,7 +169,7 @@ public class MovementController : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    [PunRPC]
+    //[PunRPC]
     void CallCheckState()
     {
         var stateManagement = FindAnyObjectByType<StateGameMenu>();

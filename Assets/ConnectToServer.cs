@@ -8,7 +8,8 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     private void Start()
     {
-        PhotonNetwork.ConnectUsingSettings();
+        if(!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()

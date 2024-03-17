@@ -45,7 +45,7 @@ public class SpawnWaiting : MonoBehaviourPunCallbacks
 
     public void CallSortPlayer()
     {
-        GetComponent<PhotonView>().RPC("SortPlayer", RpcTarget.AllBuffered);
+        GetComponent<PhotonView>().RPC("SortPlayer", RpcTarget.All);
     }
 
     [PunRPC]
