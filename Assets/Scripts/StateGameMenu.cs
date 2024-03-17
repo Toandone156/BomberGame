@@ -21,7 +21,6 @@ public class StateGameMenu : MonoBehaviourPunCallbacks
         Time.timeScale = 1;
     }
 
-    [System.Obsolete]
     public void CheckState(bool isMine)
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
