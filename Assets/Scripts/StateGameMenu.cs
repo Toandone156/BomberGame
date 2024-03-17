@@ -24,13 +24,13 @@ public class StateGameMenu : MonoBehaviourPunCallbacks
     public void CheckState(bool isMine)
     {
         var players = GameObject.FindGameObjectsWithTag("Player");
-        var remainPlayers = players.Count(p => p.active);
+        var remainPlayers = players.Count(p => p.activeSelf);
 
         Debug.Log(remainPlayers);
 
         if (remainPlayers == 1)
         {
-            var player = players.SingleOrDefault(p => p.active);
+            var player = players.SingleOrDefault(p => p.activeSelf);
             Debug.Log(player.GetPhotonView().IsMine);
             if (player.GetPhotonView().IsMine)
             {
