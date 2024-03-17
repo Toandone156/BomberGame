@@ -32,6 +32,7 @@ public class StateGameMenu : MonoBehaviourPunCallbacks
         if (remainPlayers == 1)
         {
             var player = players.SingleOrDefault(p => p.active);
+            Debug.Log(player.GetPhotonView().IsMine);
             if (player.GetPhotonView().IsMine)
             {
                 WinGame();

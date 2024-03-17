@@ -169,7 +169,7 @@ public class MovementController : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    //[PunRPC]
+    [PunRPC]
     void CallCheckState()
     {
         var stateManagement = FindAnyObjectByType<StateGameMenu>();
